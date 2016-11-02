@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 public class Talk01 {
 
 	public static void main(String[] args) {
-		// TODO 自動生成されたメソッド・スタブ　　　
+		// TODO 自動生成されたメソッド・スタブ　　　おおお
 		int age;
 		System.out.println("ユー、名前は？");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
