@@ -1,3 +1,8 @@
+/**
+ * matzテスト用
+ *
+ */
+
 package ztam.study.main;
 
 import java.io.BufferedReader;
