@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Talk02 {
+public class Talk2 {
 
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ　　　

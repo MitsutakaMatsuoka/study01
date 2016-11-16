@@ -1,6 +1,6 @@
 package ztam.study.main;
 
-public class Calc02 {
+public class Calc2 {
 
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ

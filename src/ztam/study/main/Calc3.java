@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Calc03 {
+public class Calc3 {
 
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ

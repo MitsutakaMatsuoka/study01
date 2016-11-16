@@ -1,18 +1,25 @@
+/**
+ * matzテスト用
+ *
+ */
+
 package ztam.study.main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Talk01 {
+public class Tbl1 {
 
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ　　　
 		int age;
+		BufferedReader input;		//入力値の定義
+		String line;				//入力値の格納先
 		System.out.println("ユー、名前は？");
-		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		input = new BufferedReader(new InputStreamReader(System.in));
 				try {
-					String line = input.readLine();
+					line = input.readLine();
 					System.out.println("ＨＥＬＬＯ " + line);
 					System.out.println(line + "は何歳なんだい？");
 					line = input.readLine();
