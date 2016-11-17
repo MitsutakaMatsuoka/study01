@@ -12,20 +12,24 @@ import java.io.InputStreamReader;
 public class Tbl1 {
 
 	public static void main(String[] args) {
-		// TODO 自動生成されたメソッド・スタブ　　　
-		int age;
-		BufferedReader input;		//入力値の定義
-		String line;				//入力値の格納先
-		System.out.println("ユー、名前は？");
-		input = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("いくつの数を足す？");
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 				try {
-					line = input.readLine();
-					System.out.println("ＨＥＬＬＯ " + line);
-					System.out.println(line + "は何歳なんだい？");
-					line = input.readLine();
-					age = Integer.parseInt(line);
-					System.out.println(age + "歳か、なるほどな。");
-					System.out.println("ってことは 100年後には" + (age + 100) + "歳だな。");
+					String line = input.readLine();
+					System.out.println("なるほど " + line + " つだね");
+					int count = Integer.parseInt(line);
+					int table[] = new int[count];
+					for (int a = 0; a < count; a++) {
+						System.out.println((a+1) + "つめは？");
+						line = input.readLine();
+						table[a] = Integer.parseInt(line);
+					}
+					System.out.println("ＯＫ");
+					int total = 0;
+					for (int a = 0; a < count; a++) {
+						total = total + table[a];
+					}
+					System.out.println("合計は" + total + "だね");
 				} catch (IOException e) {
 					System.out.println(e);
 				} catch (NumberFormatException e) {
