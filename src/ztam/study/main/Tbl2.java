@@ -27,7 +27,6 @@ public class Tbl2 {
 					default:
 						System.out.println("1 か 2 だ！");
 						System.exit(-1);
-						break;
 					}
 					int ope = Integer.parseInt(line);
 					System.out.println("いくつの数で計算する？");
@@ -40,7 +39,8 @@ public class Tbl2 {
 						System.out.println("じゃ、たし算するよ");
 						for (int a = 0; a < count; a++) {
 							System.out.println((a+1) + "つ目の値は？");
-							line = input.readLine();
+							line = input.readLine()
+									;
 							table[a] = Integer.parseInt(line);
 						}
 						System.out.println("ＯＫ");
