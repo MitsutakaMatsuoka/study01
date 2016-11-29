@@ -18,7 +18,6 @@ public class ShowWhiteFile1 {
 
 	public static void main(String[] args) {
 		try{
-//			  File file = new File("C:¥\Users¥¥Mitsutaka_Matsuoka.SISCO\\Desktop\\study\\java\\SISCOTGIF05.xlsx");
 //			  File file = new File("C:\\java.txt");
 			  File r_file = new File("C:\\SISCOTGIF05.csv");
 			  BufferedReader read = new BufferedReader(new FileReader(r_file));

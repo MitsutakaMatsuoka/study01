@@ -20,7 +20,8 @@ public class ShowWhiteFile2 {
 
 	public static void main(String[] args) {
 		try{
-			  File r_file = new File("C:\\SISCOTGIF05.csv");
+//			  File r_file = new File("C:\\SISCOTGIF05.csv");
+			  File r_file = new File("C:\\Users\\Mitsutaka_Matsuoka.SISCO\\Desktop\\study\\java\\SISCOTGIF05.csv");
 			  FileInputStream input = new FileInputStream(r_file);
 			  InputStreamReader i_stream = new InputStreamReader(input,"SJIS");
 			  BufferedReader b_reader = new BufferedReader(i_stream);
