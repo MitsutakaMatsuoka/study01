@@ -42,6 +42,7 @@ public class ShowWhiteFile2 {
 			  output.close();
 			  o_stream.close();
 			  b_writer.close();
+			  writer.close();
 
 			}catch(FileNotFoundException e){
 			  System.out.println(e);
