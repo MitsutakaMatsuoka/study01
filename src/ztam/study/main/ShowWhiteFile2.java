@@ -21,12 +21,12 @@ public class ShowWhiteFile2 {
 	public static void main(String[] args) {
 		try{
 //			  File r_file = new File("C:\\SISCOTGIF05.csv");
-			  File r_file = new File("C:\\Users\\Mitsutaka_Matsuoka.SISCO\\Desktop\\study\\java\\SISCOTGIF05.csv");
+			  File r_file = new File("E:\\java\\data\\SISCOTGIF05.csv");
 			  FileInputStream input = new FileInputStream(r_file);
 			  InputStreamReader i_stream = new InputStreamReader(input,"SJIS");
 			  BufferedReader b_reader = new BufferedReader(i_stream);
 
-			  File w_file = new File("C:\\SISCOTGIF05w.csv");
+			  File w_file = new File("E:\\java\\data\\SISCOTGIF05w.csv");
 			  FileOutputStream output = new FileOutputStream(w_file);
 			  OutputStreamWriter o_stream = new OutputStreamWriter(output,"SJIS");
 			  BufferedWriter b_writer = new BufferedWriter(o_stream);
