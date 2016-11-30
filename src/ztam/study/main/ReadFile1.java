@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ShowFile1 {
+public class ReadFile1 {
 
 	public static void main(String[] args) {
 		if (args.length != 1) {

@@ -16,11 +16,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class ShowWhiteFile2 {
+public class ReadWhiteFile2 {
 
 	public static void main(String[] args) {
 		try{
-//			  File r_file = new File("C:\\SISCOTGIF05.csv");
 			  File r_file = new File("E:\\java\\data\\SISCOTGIF05.csv");
 			  FileInputStream input = new FileInputStream(r_file);
 			  InputStreamReader i_stream = new InputStreamReader(input,"SJIS");
