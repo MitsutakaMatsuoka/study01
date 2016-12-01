@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class ReadWhiteFile3 {
+public class ReadWriteFile3 {
 	class Settgif{
 		String name;
 		String date;

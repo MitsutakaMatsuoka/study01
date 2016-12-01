@@ -14,7 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class ReadWhiteFile1 {
+public class ReadWriteFile1 {
 
 	public static void main(String[] args) {
 		try{
