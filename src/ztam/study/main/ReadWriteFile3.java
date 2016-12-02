@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 public class ReadWriteFile3 {
-	class Settgif{
+	public class Settgif{
 		String name;
 		String date;
 		int status1;

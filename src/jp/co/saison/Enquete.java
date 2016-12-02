@@ -13,7 +13,8 @@ public class Enquete {
 //
 //	}
 
-//	void setData(String i_name, String i_date, int i_status1, int i_lt1, int i_status2, int i_lt2){
+
+	//	void setData(String i_name, String i_date, int i_status1, int i_lt1, int i_status2, int i_lt2){
 //		name = i_name;
 //		date = i_date;
 //		status1 = i_status1;
@@ -45,6 +46,13 @@ public class Enquete {
 	public void setLtStatus(int ltStatus) {
 		this.ltStatus = ltStatus;
 	}
+
+//	public Enquete(String guestName,String tgifNumber,int attendStatus,int ltStatus ){
+//		this.guestName = guestName;
+//		this.tgifNumber = tgifNumber;
+//		this.attendStatus = attendStatus;
+//		this.ltStatus = ltStatus;
+//	}
 
 
 
