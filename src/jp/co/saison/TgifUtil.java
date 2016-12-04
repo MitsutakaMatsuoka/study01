@@ -49,7 +49,7 @@ public class TgifUtil {
 			String[] splitReadLine = readLine.split(",",0);
 
 
-
+//有馬さん
 			Enquete enquate = new Enquete();
 
 
