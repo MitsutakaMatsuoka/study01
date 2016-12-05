@@ -18,7 +18,7 @@ public class ReadTgifEnquete {
 //			 PrintWriter writer = TgifUtil.write_file("E:\\java\\data\\SISCOTGIF05_edit.csv");
 
 //バッファの内容をアレイリストに格納
-			 ArrayList<ArrayList<String>> enqueteList = TgifUtil.makeTgifList(b_reader);
+			 ArrayList<Enquete> enqueteList = TgifUtil.makeTgifList(b_reader);
 
 //			 input.close();
 //			 i_stream.close();
@@ -29,7 +29,7 @@ public class ReadTgifEnquete {
 //			 writer.close();
 
 //アレイリストからＤＢに格納
-			 TgifUtil.makeTgifDb(enqueteList);
+//			 TgifUtil.makeTgifDb(enqueteList);
 
 			}catch(FileNotFoundException e){
 			  System.out.println(e);

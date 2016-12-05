@@ -35,94 +35,64 @@ public class TgifUtil {
 
 
 //----------------------------------------------------------------------------------
-//	public static ArrayList<String> makeTgifList(BufferedReader b_reader) throws IOException{
-	public static ArrayList<ArrayList<String>> makeTgifList(BufferedReader b_reader) throws IOException{
+	public static ArrayList<String> makeTgifList(BufferedReader b_reader) throws IOException{
 		String readLine;
-//		ArrayList<String> enqueteList = new ArrayList<String>();
-		ArrayList<ArrayList<String>> enqueteList = new ArrayList<ArrayList<String>>();
-		Enquete enqueteLine = new Enquete();
+		ArrayList<Enquete> enqueteList = new ArrayList<Enquete>();
+		Enquete enquete = new Enquete();
 		while((readLine  = b_reader.readLine()) != null){
-//入力ライン内容の確認
-			System.out.println("【入力ライン内容】");
-			System.out.println(readLine);
+//入力引数内容の確認
+			System.out.println("【入力引数内容】");
+			System.out.println("　　　" + readLine);
+
 //		    writer.println(readLine);
+
+//入力ライン内容をＳＰＬＩＴ化
 			String[] splitReadLine = readLine.split(",",0);
-
-
-//有馬さん
-			Enquete enquate = new Enquete();
-
 
 //スプリット内容の確認
 			System.out.println("【スプリット内容】");
 			int i = 1;
 			for (String contentReadLine: splitReadLine) {
-				System.out.println(i + " " + contentReadLine);
+				System.out.println("　　　" + i + " " + contentReadLine);
 				i++;
 			}
 
-//出力内容の編集
-			enqueteLine.setGuestName(splitReadLine[0]);
-
-			enquate.setGuestName(splitReadLine[0]);
-
-
-			enqueteLine.setTgifNumber(splitReadLine[5]);
+//出力内容の編集＆オブジェクト化
+			enquete.setGuestName(splitReadLine[0]);
+			enquete.setTgifNumber(splitReadLine[5]);
 			switch(splitReadLine[1]){
 			case "出席する":
-				enqueteLine.setAttendStatus(1);
+				enquete.setAttendStatus(1);
 				break;
 			default:
-				enqueteLine.setAttendStatus(0);
+				enquete.setAttendStatus(0);
 				break;
 			}
 			switch(splitReadLine[2]){
 			case "エントリする":
-				enqueteLine.setLtStatus(1);
+				enquete.setLtStatus(1);
 				break;
 			default:
-				enqueteLine.setLtStatus(0);
+				enquete.setLtStatus(0);
 				break;
 			}
-//出力内容を配列に格納
-			String enqueteTBL[] = new String[4];
-			enqueteTBL[0] = enqueteLine.getGuestName();
-			enqueteTBL[1] = enqueteLine.getTgifNumber();
-			enqueteTBL[2] = String.valueOf(enqueteLine.getAttendStatus());
-			enqueteTBL[3] = String.valueOf(enqueteLine.getLtStatus());
-//配列内容の確認
-			System.out.println("【配列内容】");
-			for(i = 0;i<4;i++){
-				System.out.print(enqueteTBL[i] + " ");
-			}
-			System.out.println();
 
-//出力内容を１次元リストに格納
-			ArrayList<String> enqueteSubList = new ArrayList<String>();
-			enqueteSubList.add(enqueteLine.getGuestName());
-			enqueteSubList.add(enqueteLine.getTgifNumber());
-			enqueteSubList.add(String.valueOf(enqueteLine.getAttendStatus()));
-			enqueteSubList.add(String.valueOf(enqueteLine.getLtStatus()));
+//出力内容（オブジェクト化後）をリストに格納
+			enqueteList.add(enquete);
 
-//１次元リスト内容の確認
+//リスト内容の確認
 			System.out.println("【１次元リスト内容】");
-			for (i = 0; i < enqueteSubList.size();i++){
-				System.out.print(enqueteSubList.get(i)+ " ");
+			System.out.println("　　　");
+			for (i = 0; i < enqueteList.size();i++){
+				System.out.print(enqueteList.get(i)+ " ");
 			}
 			System.out.println();
 			System.out.println();
 			System.out.println();
 
-//１次元リストを２次元リストに格納
-			enqueteList.add(enqueteSubList);
+////１次元リストを２次元リストに格納
+//			enqueteList.add(enquetLine);
 
-
-
-		}
-//２次元リスト内容の確認
-		System.out.println("【２次元リスト内容】");
-		for (int i = 0; i < enqueteList.size();i++){
-			System.out.println(i + " " + enqueteList.get(i));
 		}
 
 		return enqueteList;
