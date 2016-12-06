@@ -29,7 +29,7 @@ public class ReadTgifEnquete {
 //			 writer.close();
 
 //アレイリストからＤＢに格納
-//			 TgifUtil.makeTgifDb(enqueteList);
+			 TgifUtil.insertTgifDb(enqueteList);
 
 			}catch(FileNotFoundException e){
 			  System.out.println(e);

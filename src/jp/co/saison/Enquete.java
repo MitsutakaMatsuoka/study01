@@ -1,6 +1,6 @@
 package jp.co.saison;
 
-public class Enquete {
+public class Enquete{
 
 	//カプセル化するために、フィールドをprivate指定する
 	private String guestName;
@@ -13,15 +13,11 @@ public class Enquete {
 //
 //	}
 
+	@Override
+	public String toString(){
+		return guestName + " " + tgifNumber + " " + attendStatus + " " + ltStatus;
+	}
 
-	//	void setData(String i_name, String i_date, int i_status1, int i_lt1, int i_status2, int i_lt2){
-//		name = i_name;
-//		date = i_date;
-//		status1 = i_status1;
-//		lt1 = i_lt1;
-//		status2 = i_status2;
-//		lt2 = i_lt2;
-//	}
 	public String getGuestName() {
 		return guestName;
 	}
