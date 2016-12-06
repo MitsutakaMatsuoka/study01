@@ -1,20 +1,26 @@
 package jp.co.saison;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 public class TgifUtil {
 
 //----------------------------------------------------------------------------------
+//【ＣＳＶファイルを読み込みバッファに格納】
 	public static BufferedReader read_file(String filePath) throws FileNotFoundException, UnsupportedEncodingException, IOException{
 		File r_file = new File(filePath);
 		FileInputStream input = new FileInputStream(r_file);
@@ -27,17 +33,7 @@ public class TgifUtil {
 	}
 
 //----------------------------------------------------------------------------------
-//	public static PrintWriter write_file(String filePath) throws FileNotFoundException, UnsupportedEncodingException{
-//		File w_file = new File(filePath);
-//		FileOutputStream output = new FileOutputStream(w_file);
-//		OutputStreamWriter o_stream = new OutputStreamWriter(output,"SJIS");
-//		BufferedWriter b_writer = new BufferedWriter(o_stream);
-//		PrintWriter writer = new PrintWriter(b_writer,true);
-//		return writer;
-//	}
-
-
-//----------------------------------------------------------------------------------
+//【バッファを読み込みアレイリストに格納】
 	public static ArrayList<Enquete> makeTgifList(BufferedReader b_reader) throws IOException{
 //フィールド定義
 		String readLine;												//入力引数の格納先
@@ -74,6 +70,7 @@ public class TgifUtil {
 				enquete.setTgifNumber(splitReadLine[5].substring(26,36));
 				switch(splitReadLine[1]){
 				case "出席する":
+				case "1":
 					enquete.setAttendStatus(1);
 					break;
 				default:
@@ -82,6 +79,7 @@ public class TgifUtil {
 				}
 				switch(splitReadLine[2]){
 				case "エントリする":
+				case "1":
 					enquete.setLtStatus(1);
 					break;
 				default:
@@ -119,6 +117,7 @@ public class TgifUtil {
 	}
 
 //----------------------------------------------------------------------------------
+//【アレイリストを読み込みＤＢにインサート】
 	public static void   insertTgifDb(ArrayList<Enquete> enqueteList) throws IOException{
 		Connection dbConnect = null;
 		Statement dbStmt = null;
@@ -157,7 +156,8 @@ public class TgifUtil {
 						enqueteCount.getLtStatus() + ")";
 				System.out.println("　　　SQL文 = " + dbSql);
 				int dbResult = dbStmt.executeUpdate(dbSql);
-				System.out.println("DB insert結果 = " + dbResult);
+				System.out.println("　　　DB insert結果 = " + dbResult);
+				System.out.println("");
 			}
 // データベースから切断
 			dbStmt.close();
@@ -167,4 +167,64 @@ public class TgifUtil {
 		}
 
 	}
+//----------------------------------------------------------------------------------
+//【ＤＢを読み込みバッファに格納】
+	public static BufferedReader selectTgifDb(String dbName,String tblName) throws IOException{
+		Connection dbConnect = null;
+		Statement dbStmt = null;
+//		ResultSet dbResultSet = null;
+		try {
+//フィールド情報
+			String dbDriver = "org.postgresql.Driver";							//ＤＢドライバ
+			String dbServer = "localhost:5432/";								//ＤＢサーバー
+//			String dbName = "tgifdb";											//ＤＢ名称は引数
+			String dbUrl = "jdbc:postgresql://" + dbServer + dbName;
+			String dbUser =  "postgres";										//ＤＢユーザー
+			String dbPass =  "password";												//ＤＢパスワード
+			Class.forName (dbDriver);
+//			Class.forName("org.postgresql.Driver");
+
+//データベースへ接続
+			dbConnect = DriverManager.getConnection(dbUrl,dbUser,dbPass);
+//ステートメントオブジェクトを生成
+			dbStmt = dbConnect.createStatement();
+//SQL実施
+			System.out.println("");
+			System.out.println("");
+			System.out.println("＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊");
+			System.out.println("DB select開始");
+			System.out.println("");
+
+//SQL文を指定し実行
+
+			System.out.println("　　　select実施　対象DB = " + dbName + "対象TBL = " + tblName);
+			String dbSql = "select * from " + tblName;
+			System.out.println("　　　SQL文 = " + dbSql);
+			ResultSet dbResultSet = dbStmt.executeQuery(dbSql);
+			System.out.println("　　　DB select結果 = " + dbResultSet);
+			System.out.println("");
+//			File r_file = new File(filePath);
+//			FileInputStream input = new FileInputStream(r_file);
+//			InputStreamReader i_stream = new InputStreamReader(input,"SJIS");
+//			BufferedReader b_reader = new BufferedReader(i_stream);
+//データベースから切断
+			dbStmt.close();
+			dbConnect.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	//----------------------------------------------------------------------------------
+	//【アレイリストを読み込みＣＳＶファイルを書き込み】
+			public static PrintWriter write_file(String filePath) throws FileNotFoundException, UnsupportedEncodingException{
+				File w_file = new File(filePath);
+				FileOutputStream output = new FileOutputStream(w_file);
+				OutputStreamWriter o_stream = new OutputStreamWriter(output,"SJIS");
+				BufferedWriter b_writer = new BufferedWriter(o_stream);
+				PrintWriter writer = new PrintWriter(b_writer,true);
+				return writer;
+			}
+
 }
