@@ -152,8 +152,8 @@ public class TgifUtil {
 //追加・更新の判定（SELECT）
 				System.out.println("　　　select実施　対象DB　= " + dbName + "　対象TBL = " + tblName);
 				String dbSql = "select * from " + tblName +
-						" where guestname = '" + enqueteCount.getGuestName() +
-						"' and tgifnumber = '" + enqueteCount.getTgifNumber() +
+						" where \"guestName\" = '" + enqueteCount.getGuestName() +
+						"' and \"tgifNumber\" = '" + enqueteCount.getTgifNumber() +
 						"'";
 				System.out.println("　　　発行するSQL文の内容 = " + dbSql); //SQL文内容確認
 //SQL文発行（SELECT）
@@ -174,10 +174,10 @@ public class TgifUtil {
 						System.out.println("　　　　★★データ内容不一致／更新実施★★");
 //SQL文発行（UPDATE）
 						dbSql = "update " + tblName +
-								" set attendstatus = " + enqueteCount.getAttendStatus() +
-								", ltstatus = " + enqueteCount.getLtStatus() +
-								" where guestname = '" + enqueteCount.getGuestName() +
-								"' and tgifnumber = '" + enqueteCount.getTgifNumber() +
+								" set \"attendStatus\" = " + enqueteCount.getAttendStatus() +
+								", \"ltStatus\" = " + enqueteCount.getLtStatus() +
+								" where \"guestName\" = '" + enqueteCount.getGuestName() +
+								"' and \"tgifNumber\" = '" + enqueteCount.getTgifNumber() +
 								"'";
 						System.out.println("　　　　SQL文 = " + dbSql);
 						dbResult = dbStmt.executeUpdate(dbSql);
@@ -196,7 +196,7 @@ public class TgifUtil {
 					System.out.println("　　　　SQL文 = " + dbSql);
 //SQL文発行（INSERT）
 					dbResult = dbStmt.executeUpdate(dbSql);
-					System.out.println("　　　DB insert結果 = " + dbResult);
+					System.out.println("　　　　DB insert結果 = " + dbResult);
 					System.out.println("");
 				}
 			}

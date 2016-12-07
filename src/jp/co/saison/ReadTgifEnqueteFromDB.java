@@ -14,8 +14,8 @@ public class ReadTgifEnqueteFromDB {
 			ArrayList<Enquete> enqueteList = TgifUtil.selectTgifDb("tgifdb","tbl_tgif");
 
 //アレイリストの内容をファイルに出力
-			TgifUtil.writeCsv(enqueteList,"E:\\java\\data\\SISCOTGIF05_edit.csv");
-//			ArrayList<Enquete> writer = TgifUtil.WriteCsv(enqueteList,"E:\\java\\data\\SISCOTGIF05_edit.csv");
+			TgifUtil.writeCsv(enqueteList,"E:\\java\\data\\SISCOTGIF_ENQUETE_edit.csv");
+//			ArrayList<Enquete> writer = TgifUtil.WriteCsv(enqueteList,"E:\\java\\data\\SISCOTGIF_ENQUETE_edit.csv");
 
 			}catch(FileNotFoundException e){
 			  System.out.println(e);
