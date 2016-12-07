@@ -18,7 +18,7 @@ public class ReadTgifEnqueteFromCSV {
 			 ArrayList<Enquete> enqueteList = TgifUtil.makeTgifList(b_reader);
 			 b_reader.close();
 
-//アレイリストからＤＢに格納
+//アレイリストからＤＢに更新・格納
 			 TgifUtil.insertTgifDb(enqueteList,"tgifdb","tbl_tgif");
 
 			}catch(FileNotFoundException e){

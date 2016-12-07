@@ -208,54 +208,6 @@ public class TgifUtil {
 		}
 
 	}
-////----------------------------------------------------------------------------------
-//	//【アレイリストを読み込みＤＢにインサート】
-//		public static void   insertTgifDb(ArrayList<Enquete> enqueteList) throws IOException{
-//			Connection dbConnect = null;
-//			Statement dbStmt = null;
-////			ResultSet dbResultSet = null;
-//			try {
-//	//フィールド情報
-//				String dbDriver = "org.postgresql.Driver";							//ＤＢドライバ
-//				String dbServer = "localhost:5432/";								//ＤＢサーバー
-//				String dbName = "tgifdb";											//ＤＢ名称
-//				String dbUrl = "jdbc:postgresql://" + dbServer + dbName;
-//				String dbUser =  "postgres";										//ＤＢユーザー
-//				String dbPass =  "password";												//ＤＢパスワード
-//				Class.forName (dbDriver);
-//
-//	//データベースへ接続
-//				dbConnect = DriverManager.getConnection(dbUrl,dbUser,dbPass);
-//	//ステートメントオブジェクトを生成
-//				dbStmt = dbConnect.createStatement();
-//	//SQL実施
-//				System.out.println("");
-//				System.out.println("");
-//				System.out.println("＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊");
-//				System.out.println("DB insert開始");
-//				System.out.println("");
-//
-//	//SQL文を指定し実行
-//				for(Enquete enqueteCount :enqueteList){
-//					System.out.println("　　　insert実施　" + enqueteCount.getGuestName() + " さん");
-//					String dbSql = "insert into tbl_tgif values ('" +
-//							enqueteCount.getGuestName() + "','" +
-//							enqueteCount.getTgifNumber() + "'," +
-//							enqueteCount.getAttendStatus() + "," +
-//							enqueteCount.getLtStatus() + ")";
-//					System.out.println("　　　SQL文 = " + dbSql);
-//					int dbResult = dbStmt.executeUpdate(dbSql);
-//					System.out.println("　　　DB insert結果 = " + dbResult);
-//					System.out.println("");
-//				}
-//	// データベースから切断
-//				dbStmt.close();
-//				dbConnect.close();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//
-//		}
 //----------------------------------------------------------------------------------
 //【ＤＢを読み込みアレイリストに格納】
 	public static ArrayList<Enquete> selectTgifDb(String dbName,String tblName) throws IOException{
@@ -342,8 +294,8 @@ public class TgifUtil {
 		return enqueteList;
 	}
 
-	//----------------------------------------------------------------------------------
-	//【アレイリストを読み込みＣＳＶファイルを書き込み】
+//----------------------------------------------------------------------------------
+//【アレイリストを読み込みＣＳＶファイルを書き込み】
 	public static void   writeCsv(ArrayList<Enquete> enqueteList,String filePath) throws IOException{
 		File w_file = new File(filePath);
 		FileOutputStream output = new FileOutputStream(w_file);
