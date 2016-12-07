@@ -117,23 +117,23 @@ public class TgifUtil {
 	}
 
 //----------------------------------------------------------------------------------
-//【アレイリストを読み込みＤＢにインサート】
-	public static void   insertTgifDb(ArrayList<Enquete> enqueteList) throws IOException{
+//【アレイリストを読み込みＤＢに登録・更新】
+	public static void   insertTgifDb(ArrayList<Enquete> enqueteList,String dbName,String tblName) throws IOException{
 		Connection dbConnect = null;
 		Statement dbStmt = null;
 //		ResultSet dbResultSet = null;
 		try {
 //フィールド情報
 			String dbDriver = "org.postgresql.Driver";							//ＤＢドライバ
-//			String dbDriver = "/JavaStudy01/lib/postgresql-9.4.1212.jar";		//ＤＢドライバ
 //			String dbServer = "172.16.91.121";									//ＤＢサーバー
 			String dbServer = "localhost:5432/";								//ＤＢサーバー
-			String dbName = "tgifdb";											//ＤＢ名称
 			String dbUrl = "jdbc:postgresql://" + dbServer + dbName;
 			String dbUser =  "postgres";										//ＤＢユーザー
-			String dbPass =  "password";												//ＤＢパスワード
+			String dbPass =  "password";										//ＤＢパスワード
+			ResultSet dbResultSet = null;
+			int dbResult;
+			int dbSelectResult;
 			Class.forName (dbDriver);
-//			Class.forName("org.postgresql.Driver");
 
 //データベースへ接続
 			dbConnect = DriverManager.getConnection(dbUrl,dbUser,dbPass);
@@ -143,21 +143,62 @@ public class TgifUtil {
 			System.out.println("");
 			System.out.println("");
 			System.out.println("＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊");
-			System.out.println("DB insert開始");
+			System.out.println("【追加・更新の判定を行い挿入もしくは更新を実施】");
 			System.out.println("");
+//SQL文発行
 
 //SQL文を指定し実行
 			for(Enquete enqueteCount :enqueteList){
-				System.out.println("　　　insert実施　" + enqueteCount.getGuestName() + " さん");
-				String dbSql = "insert into tbl_tgif values ('" +
-						enqueteCount.getGuestName() + "','" +
-						enqueteCount.getTgifNumber() + "'," +
-						enqueteCount.getAttendStatus() + "," +
-						enqueteCount.getLtStatus() + ")";
-				System.out.println("　　　SQL文 = " + dbSql);
-				int dbResult = dbStmt.executeUpdate(dbSql);
-				System.out.println("　　　DB insert結果 = " + dbResult);
-				System.out.println("");
+//追加・更新の判定（SELECT）
+				System.out.println("　　　select実施　対象DB　= " + dbName + "　対象TBL = " + tblName);
+				String dbSql = "select * from " + tblName +
+						" where guestname = '" + enqueteCount.getGuestName() +
+						"' and tgifnumber = '" + enqueteCount.getTgifNumber() +
+						"'";
+				System.out.println("　　　発行するSQL文の内容 = " + dbSql); //SQL文内容確認
+//SQL文発行（SELECT）
+				dbResultSet = dbStmt.executeQuery(dbSql);
+				if (dbResultSet.next() == true){
+					dbSelectResult = 1;
+				} else {
+					dbSelectResult = 0;
+				}
+				switch(dbSelectResult){
+				case(1):
+					System.out.println("　　　　同一Ｋｅｙデータ存在");
+					if (dbResultSet.getInt("attendStatus") == enqueteCount.getAttendStatus() &&
+							dbResultSet.getInt("ltStatus") == enqueteCount.getLtStatus()){
+						System.out.println("　　　　データ内容一致");
+						System.out.println("");
+					} else {
+						System.out.println("　　　　★★データ内容不一致／更新実施★★");
+//SQL文発行（UPDATE）
+						dbSql = "update " + tblName +
+								" set attendstatus = " + enqueteCount.getAttendStatus() +
+								", ltstatus = " + enqueteCount.getLtStatus() +
+								" where guestname = '" + enqueteCount.getGuestName() +
+								"' and tgifnumber = '" + enqueteCount.getTgifNumber() +
+								"'";
+						System.out.println("　　　　SQL文 = " + dbSql);
+						dbResult = dbStmt.executeUpdate(dbSql);
+						System.out.println("　　　　DB 更新結果 = " + dbResult);
+						System.out.println("");
+					}
+					break;
+				default:
+					System.out.println("　　　　★★同一Ｋｅｙデータ無し★★");
+					System.out.println("　　　　insert実施　" + enqueteCount.getGuestName() + " さん");
+					dbSql = "insert into tbl_tgif values ('" +
+					enqueteCount.getGuestName() + "','" +
+					enqueteCount.getTgifNumber() + "'," +
+					enqueteCount.getAttendStatus() + "," +
+					enqueteCount.getLtStatus() + ")";
+					System.out.println("　　　　SQL文 = " + dbSql);
+//SQL文発行（INSERT）
+					dbResult = dbStmt.executeUpdate(dbSql);
+					System.out.println("　　　DB insert結果 = " + dbResult);
+					System.out.println("");
+				}
 			}
 // データベースから切断
 			dbStmt.close();
@@ -167,6 +208,54 @@ public class TgifUtil {
 		}
 
 	}
+////----------------------------------------------------------------------------------
+//	//【アレイリストを読み込みＤＢにインサート】
+//		public static void   insertTgifDb(ArrayList<Enquete> enqueteList) throws IOException{
+//			Connection dbConnect = null;
+//			Statement dbStmt = null;
+////			ResultSet dbResultSet = null;
+//			try {
+//	//フィールド情報
+//				String dbDriver = "org.postgresql.Driver";							//ＤＢドライバ
+//				String dbServer = "localhost:5432/";								//ＤＢサーバー
+//				String dbName = "tgifdb";											//ＤＢ名称
+//				String dbUrl = "jdbc:postgresql://" + dbServer + dbName;
+//				String dbUser =  "postgres";										//ＤＢユーザー
+//				String dbPass =  "password";												//ＤＢパスワード
+//				Class.forName (dbDriver);
+//
+//	//データベースへ接続
+//				dbConnect = DriverManager.getConnection(dbUrl,dbUser,dbPass);
+//	//ステートメントオブジェクトを生成
+//				dbStmt = dbConnect.createStatement();
+//	//SQL実施
+//				System.out.println("");
+//				System.out.println("");
+//				System.out.println("＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊");
+//				System.out.println("DB insert開始");
+//				System.out.println("");
+//
+//	//SQL文を指定し実行
+//				for(Enquete enqueteCount :enqueteList){
+//					System.out.println("　　　insert実施　" + enqueteCount.getGuestName() + " さん");
+//					String dbSql = "insert into tbl_tgif values ('" +
+//							enqueteCount.getGuestName() + "','" +
+//							enqueteCount.getTgifNumber() + "'," +
+//							enqueteCount.getAttendStatus() + "," +
+//							enqueteCount.getLtStatus() + ")";
+//					System.out.println("　　　SQL文 = " + dbSql);
+//					int dbResult = dbStmt.executeUpdate(dbSql);
+//					System.out.println("　　　DB insert結果 = " + dbResult);
+//					System.out.println("");
+//				}
+//	// データベースから切断
+//				dbStmt.close();
+//				dbConnect.close();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//
+//		}
 //----------------------------------------------------------------------------------
 //【ＤＢを読み込みアレイリストに格納】
 	public static ArrayList<Enquete> selectTgifDb(String dbName,String tblName) throws IOException{
@@ -206,10 +295,10 @@ public class TgifUtil {
 //SQL発行結果確認＆アレイリストに格納
 			while(dbResultSet.next()){
 				Enquete enquete = new Enquete();								//出力オブジェクトの格納先
-			    String guestName = dbResultSet.getString("guestName");
-			    String tgifNumber = dbResultSet.getString("tgifNumber");
-				int attendStatus = dbResultSet.getInt("attendStatus");
-				int ltStatus = dbResultSet.getInt("ltStatus");
+			    String guestName = dbResultSet.getString("guestname");
+			    String tgifNumber = dbResultSet.getString("tgifnumber");
+				int attendStatus = dbResultSet.getInt("attendstatus");
+				int ltStatus = dbResultSet.getInt("ltstatus");
  //ＤＢ取得結果内容の確認
 				System.out.println("　　　DB select結果　= " + guestName + " " + tgifNumber + " " + attendStatus + " " + ltStatus);
  //出力内容の編集＆オブジェクト化

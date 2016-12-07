@@ -19,7 +19,7 @@ public class ReadTgifEnqueteFromCSV {
 			 b_reader.close();
 
 //アレイリストからＤＢに格納
-			 TgifUtil.insertTgifDb(enqueteList);
+			 TgifUtil.insertTgifDb(enqueteList,"tgifdb","tbl_tgif");
 
 			}catch(FileNotFoundException e){
 			  System.out.println(e);
