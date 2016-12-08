@@ -144,6 +144,10 @@ public class ShopRathingUtil {
 		for (int listCount = 0; listCount < shopRathingList.size(); listCount++){
 			System.out.println("　　　No." + listCount + "　" + shopRathingList.get(listCount));
 		}
+
+//		Collections.sort(shopRathingList);
+
+
 		return shopRathingList;
 	}
 

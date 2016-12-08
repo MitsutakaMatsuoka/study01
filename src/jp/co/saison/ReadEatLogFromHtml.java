@@ -14,7 +14,7 @@ public class ReadEatLogFromHtml {
 //ファイルを読んでバッファに格納
 			 BufferedReader b_reader = ShopRathingUtil.readHtmlToBuffer("E:\\java\\data\\tabelog.html");
 
-////バッファの内容をアレイリストに格納
+//バッファの内容をアレイリストに格納
 			 ArrayList<ShopRating> shopRatingList = ShopRathingUtil.makeShopRatingList(b_reader);
 			 b_reader.close();
 //
