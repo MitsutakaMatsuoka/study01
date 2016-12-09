@@ -16,8 +16,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class ShopRathingUtil {
+public class ShopRatingUtil {
 
 //----------------------------------------------------------------------------------
 //【ＣＳＶファイルを読み込みバッファに格納】
@@ -37,7 +38,7 @@ public class ShopRathingUtil {
 	public static ArrayList<ShopRating> makeShopRatingList(BufferedReader b_reader) throws IOException{
 //フィールド定義
 		String readLine;												//入力引数の格納先
-		ArrayList<ShopRating> shopRathingList = new ArrayList<ShopRating>();	//戻り値の格納用
+		ArrayList<ShopRating> shopRatingList = new ArrayList<ShopRating>();	//戻り値の格納用
 
 //引数入力～編集～リスト格納
 		int lineAdoption;
@@ -95,7 +96,8 @@ public class ShopRathingUtil {
 				startWord = readLine.indexOf("tb-rating__val tb-rating__val--strong list-rst__rating-val") + 60;
 				endWord = startWord + 4;
 				System.out.println("　　　　　　　" + readLine.substring(startWord,endWord));
-				shopRating.setShopPoint(readLine.substring(startWord,endWord));
+//				shopRating.setShopPoint(Integer.parseInt(readLine.substring(startWord,endWord)));
+				shopRating.setShopPoint(Float.parseFloat(readLine.substring(startWord,endWord)));
 				System.out.println("");
 
 				break;
@@ -103,7 +105,7 @@ public class ShopRathingUtil {
 				startWord = readLine.indexOf("list-rst__rvw-count-num cpy-review-count") + 42;
 				endWord = readLine.indexOf("</em>件");
 				System.out.println("　　　　　　　" + readLine.substring(startWord,endWord));
-				shopRating.setShopReviewCount(readLine.substring(startWord,endWord));
+				shopRating.setShopReviewCount(Integer.parseInt(readLine.substring(startWord,endWord)));
 				System.out.println("");
 
 				break;
@@ -128,12 +130,12 @@ public class ShopRathingUtil {
 				shopRatingWork = shopRating;
 
 //オブジェクト化した店舗評価内容をアレイリストに格納
-				shopRathingList.add(shopRatingWork);
+				shopRatingList.add(shopRatingWork);
 				shopRating = new ShopRating();//格納後初期化
 
 //リストに格納したオブジェクトの確認
 				System.out.println("【アレイリスト内容（１件）】");
-				System.out.println("　　　" + shopRathingList.get(shopRathingList.size()-1));
+				System.out.println("　　　" + shopRatingList.get(shopRatingList.size()-1));
 				System.out.println();
 			}
 
@@ -141,19 +143,27 @@ public class ShopRathingUtil {
 //リスト全体内容の確認
 		System.out.println("＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊");
 		System.out.println("【リスト内容ＡＬＬ】");
-		for (int listCount = 0; listCount < shopRathingList.size(); listCount++){
-			System.out.println("　　　No." + listCount + "　" + shopRathingList.get(listCount));
+		for (int listCount = 0; listCount < shopRatingList.size(); listCount++){
+			System.out.println("　　　No." + listCount + "　" + shopRatingList.get(listCount));
 		}
 
-//		Collections.sort(shopRathingList);
+		Collections.sort(shopRatingList,new ShopRatingComparatorSort());
+
+//リスト全体内容の確認
+		System.out.println("＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊");
+		System.out.println("【ＳＯＲＴ後リスト内容ＡＬＬ】");
+		for (int listCount = 0; listCount < shopRatingList.size(); listCount++){
+			System.out.println("　　　No." + listCount + "　" + shopRatingList.get(listCount));
+		}
 
 
-		return shopRathingList;
+
+		return shopRatingList;
 	}
 
 //----------------------------------------------------------------------------------
 //【アレイリストを読み込みＤＢに登録・更新】
-	public static void   insertShopRathingDb(ArrayList<ShopRating> shopRathingList) throws IOException{
+	public static void   insertShopRatingDb(ArrayList<ShopRating> shopRatingList) throws IOException{
 		Connection dbConnect = null;
 		Statement dbStmt = null;
 //		ResultSet dbResultSet = null;
@@ -182,10 +192,11 @@ public class ShopRathingUtil {
 //SQL文発行
 
 //SQL文を指定し実行
-			for(ShopRating ShopRatingCount :shopRathingList){
+			for(ShopRating ShopRatingCount :shopRatingList){
+
 //追加・更新の判定（SELECT）
 				System.out.println("　　　select実施　対象DB = eatLogdb　対象TBL = shopRating_tbl");
-				String dbSql = "select * from shopRating_tbl " +
+				String dbSql = "select * from \"shopRating_tbl\" " +
 						" where \"shopName\" = '" + ShopRatingCount.getShopName() +
 						"' and \"shopArea\" = '" + ShopRatingCount.getShopArea() +
 						"'";
@@ -194,23 +205,22 @@ public class ShopRathingUtil {
 				dbResultSet = dbStmt.executeQuery(dbSql);
 				if (dbResultSet.next() == true){
 					dbSelectResult = 1;
+					System.out.println("　　　　同一Ｋｅｙデータ存在");
 				} else {
 					dbSelectResult = 0;
+					System.out.println("　　　　★★データ内容不一致／更新実施★★");
 				}
 				switch(dbSelectResult){
 				case(1):
-					System.out.println("　　　　同一Ｋｅｙデータ存在");
-					if (dbResultSet.getString("shopGenre") == ShopRatingCount.getShopGenre() &&
-						dbResultSet.getString("shopPoint") == ShopRatingCount.getShopPoint() &&
-						dbResultSet.getString("shopReviewCount") == ShopRatingCount.getShopReviewCount()){
+					if (dbResultSet.getInt("shopPoint") == ShopRatingCount.getShopPoint() &&
+						dbResultSet.getInt("shopReviewCount") == ShopRatingCount.getShopReviewCount()){
 						System.out.println("　　　　データ内容一致");
 						System.out.println("");
 					} else {
-						System.out.println("　　　　★★データ内容不一致／更新実施★★");
 //SQL文発行（UPDATE）
-						dbSql = "update shopRating_tbl " +
-								" set \"shopGenre\" = " + ShopRatingCount.getShopGenre() +
-								", \"shopPoint\" = " + ShopRatingCount.getShopPoint() +
+						dbSql = "update \"shopRating_tbl\" " +
+								" set \"shopGenre\" = '" + ShopRatingCount.getShopGenre() +
+								"', \"shopPoint\" = " + ShopRatingCount.getShopPoint() +
 								", \"shopReviewCount\" = " + ShopRatingCount.getShopReviewCount() +
 								" where \"shopName\" = '" + ShopRatingCount.getShopName() +
 								"' and \"shopArea\" = '" + ShopRatingCount.getShopArea() +
@@ -224,9 +234,9 @@ public class ShopRathingUtil {
 				default:
 					System.out.println("　　　　★★同一Ｋｅｙデータ無し★★");
 					System.out.println("　　　　insert実施　店舗名 = " + ShopRatingCount.getShopName());
-					dbSql = "insert into shopRating_tbl values ('" +
+					dbSql = "insert into \"shopRating_tbl\" values ('" +
 							ShopRatingCount.getShopName() + "','" +
-							ShopRatingCount.getShopArea() + "'," +
+							ShopRatingCount.getShopArea() + "','" +
 							ShopRatingCount.getShopGenre() + "'," +
 							ShopRatingCount.getShopPoint() + "," +
 							ShopRatingCount.getShopReviewCount() + ")";

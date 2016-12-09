@@ -12,14 +12,15 @@ public class ReadEatLogFromHtml {
 	public static void main(String[] args) {
 		try{
 //ファイルを読んでバッファに格納
-			 BufferedReader b_reader = ShopRathingUtil.readHtmlToBuffer("E:\\java\\data\\tabelog.html");
+//			 BufferedReader b_reader = ShopRatingUtil.readHtmlToBuffer("E:\\java\\data\\tabelog.html");
+			 BufferedReader b_reader = ShopRatingUtil.readHtmlToBuffer("E:\\java\\data\\tabelog3.html");
 
 //バッファの内容をアレイリストに格納
-			 ArrayList<ShopRating> shopRatingList = ShopRathingUtil.makeShopRatingList(b_reader);
+			 ArrayList<ShopRating> shopRatingList = ShopRatingUtil.makeShopRatingList(b_reader);
 			 b_reader.close();
 //
 //アレイリストからＤＢに更新・格納
-			 ShopRathingUtil.insertShopRathingDb(shopRatingList);
+			 ShopRatingUtil.insertShopRatingDb(shopRatingList);
 
 			}catch(FileNotFoundException e){
 			  System.out.println(e);

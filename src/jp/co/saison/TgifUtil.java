@@ -125,7 +125,6 @@ public class TgifUtil {
 		try {
 //フィールド情報
 			String dbDriver = "org.postgresql.Driver";							//ＤＢドライバ
-//			String dbServer = "172.16.91.121";									//ＤＢサーバー
 			String dbServer = "localhost:5432/";								//ＤＢサーバー
 			String dbUrl = "jdbc:postgresql://" + dbServer + dbName;
 			String dbUser =  "postgres";										//ＤＢユーザー
@@ -167,7 +166,7 @@ public class TgifUtil {
 				case(1):
 					System.out.println("　　　　同一Ｋｅｙデータ存在");
 					if (dbResultSet.getInt("attendStatus") == enqueteCount.getAttendStatus() &&
-							dbResultSet.getInt("ltStatus") == enqueteCount.getLtStatus()){
+						dbResultSet.getInt("ltStatus") == enqueteCount.getLtStatus()){
 						System.out.println("　　　　データ内容一致");
 						System.out.println("");
 					} else {

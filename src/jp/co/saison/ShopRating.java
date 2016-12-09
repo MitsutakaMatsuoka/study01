@@ -6,8 +6,8 @@ public class ShopRating{
 	private String shopName;
 	private String shopArea;
 	private String shopGenre;
-	private String shopPoint;
-	private String shopReviewCount;
+	private float shopPoint;
+	private int shopReviewCount;
 
 	@Override
 	public String toString() {
@@ -35,16 +35,16 @@ public class ShopRating{
 	public void setShopGenre(String shopGenre) {
 		this.shopGenre = shopGenre;
 	}
-	public String getShopPoint() {
+	public float getShopPoint() {
 		return shopPoint;
 	}
-	public void setShopPoint(String shopPoint) {
+	public void setShopPoint(float shopPoint) {
 		this.shopPoint = shopPoint;
 	}
-	public String getShopReviewCount() {
+	public int getShopReviewCount() {
 		return shopReviewCount;
 	}
-	public void setShopReviewCount(String shopReviewCount) {
+	public void setShopReviewCount(int shopReviewCount) {
 		this.shopReviewCount = shopReviewCount;
 	}
 }
