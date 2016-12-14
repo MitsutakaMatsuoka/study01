@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -17,6 +18,20 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+
+
 
 public class ShopRatingUtil {
 
@@ -369,6 +384,77 @@ public class ShopRatingUtil {
 		writer.close();
 //終了メッセージ
 		System.out.println("ＣＳＶ出力完了" + "ファイル = " + filePath);
-			}
+	}
+//------------------------------------------------------------------------------------
 
+
+	private static final String PROXY_HOST = "192.168.236.23";
+	private static final int PROXY_PORT = 8080;
+	private static final String PROXY_USER= "Mitsutaka_Matsuoka";
+	private static final String PROXY_PASS= "";
+
+
+//	private static final String TARGET_HOST = "tabelog.com";
+	private static final String TARGET_HOST = "https://tabelog.com/tokyo/A1305/A130501/R607/rstLst/?vs=1&sa=%E6%B1%A0%E8%A2%8B%E9%A7%85&sk=%25E8%2582%2589&lid=hd_search1&vac_net=&svd=20161214&svt=1900&svps=2&hfc=1&sw=%25E8%2582%2589";
+	private static final int TARGET_PORT = 443;
+
+//	private static final String GET_PARAM= "/xxxxxxxxx/xxxxxx?ID=yyyyy&2ID2=wwwww";
+
+	private static String protcol = "https";
+
+    public static BufferedReader readHttpClientToBuffer (String searchArea,String searchWord) throws FileNotFoundException, UnsupportedEncodingException, IOException{
+
+		CredentialsProvider credsProvider = new BasicCredentialsProvider();
+		credsProvider.setCredentials(
+				new AuthScope(PROXY_HOST,PROXY_PORT),
+				new UsernamePasswordCredentials(PROXY_USER,PROXY_PASS));
+		CloseableHttpClient httpclient = HttpClients.custom()
+				.setDefaultCredentialsProvider(credsProvider).build();
+
+		try {
+			HttpHost targetHost = new HttpHost(TARGET_HOST, TARGET_PORT, protcol);
+			HttpHost proxy = new HttpHost(PROXY_HOST, PROXY_PORT);
+
+			RequestConfig config = RequestConfig.custom().setProxy(proxy).build();
+			HttpGet httpget = new HttpGet("/");
+			httpget.setConfig(config);
+
+			System.out.println("リクエスト⇒" + httpget.getRequestLine());
+			System.out.println("プロキシ⇒" + proxy);
+			System.out.println("接続先⇒" + targetHost);
+			CloseableHttpResponse response = httpclient.execute(targetHost, httpget);
+
+			try {
+				HttpEntity entity = response.getEntity();
+				System.out.println("ステータスライン" + response.getStatusLine());
+				if (entity != null) {
+					InputStream in = entity.getContent();
+					char c;
+					int i;
+					try {
+						while ((i = in.read()) != -1) {
+							c = (char)i;
+							System.out.print(c);
+						}
+						in.read();
+
+					} finally {
+						in.close();
+					}
+				}
+			} finally {
+				response.close();
+			}
+		} finally {
+			httpclient.close();
+		}
+		return null;
+
+    }
 }
+
+
+
+
+
+
